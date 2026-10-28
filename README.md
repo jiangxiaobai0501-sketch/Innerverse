@@ -1,7 +1,8 @@
 # 心屿 Xinyu
 
 一个在 Windows 本地运行的极简 3D 日记网站。React + Vite + React Three Fiber / Three.js + Tailwind CSS，无后端、数据库、登录和 AI。
-![Uploading ChatGPT 图像 2026年10月28日 22_28_02.jpg…]()
+<img width="3840" height="2160" alt="ChatGPT 图像 2026年10月28日 22_28_02" src="https://github.com/user-attachments/assets/f6404fb7-3a1f-4fbb-afa7-4a40f87614d2" />
+
 
 
 ## 开始使用

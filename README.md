@@ -10,6 +10,11 @@
 需要 Node.js 22.12+ 或更新的受支持版本。本机已用 Node.js 24.22.1 完成验证。
 
 在 PowerShell 中运行：
+cd "E:\codex记忆\xinyu"
+
+npm.cmd run dev
+
+http://127.0.0.1:5173/?utm_source=chatgpt.com
 
 ```powershell
 cd 'E:\codex记忆\xinyu'

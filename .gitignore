@@ -7,3 +7,11 @@ work/
 .env.*
 !.env.example
 *.json.bak
+
+# Local caches, deployment metadata and private diary exports
+.npm-cache/
+.vercel/
+backups/
+*备份*.json
+*backup*.json
+

@@ -1,5 +1,8 @@
 # 心屿 Xinyu · 4.0.0「无界星海」
 
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/227a3359-e67f-4a6d-95f5-6040ea31abb9" />
+
+
 Windows 本地离线日记应用，使用 Electron、React、React Three Fiber 与 Three.js。解锁后进入默认无常驻 UI 的原生全屏人生宇宙，日记和图片保存在本机。
 
 > 当前为未签名候选版本。保留应用密码设置/解锁流程。本仓库不包含个人日记、附件、密码配置、测试资料或本地安装包。

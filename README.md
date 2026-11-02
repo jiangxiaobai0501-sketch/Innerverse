@@ -1,80 +1,61 @@
-# 心屿 Xinyu
+# 心屿 Xinyu · 4.0.0「无界星海」
 
-一个在 Windows 本地运行的极简 3D 日记网站。React + Vite + React Three Fiber / Three.js + Tailwind CSS，无后端、数据库、登录和 AI。
-<img width="3840" height="2160" alt="ChatGPT 图像 2026年10月28日 22_28_02" src="https://github.com/user-attachments/assets/f6404fb7-3a1f-4fbb-afa7-4a40f87614d2" />
+Windows 本地离线日记应用，使用 Electron、React、React Three Fiber 与 Three.js。解锁后进入默认无常驻 UI 的原生全屏人生宇宙，日记和图片保存在本机。
 
+> 当前为未签名候选版本。保留应用密码设置/解锁流程。本仓库不包含个人日记、附件、密码配置、测试资料或本地安装包。
 
+## 日记功能在哪里？
 
-## 开始使用
+在宇宙画面按 **H**，选择 **写一篇日记** 或 **打开日记手札**。
 
-需要 Node.js 22.12+ 或更新的受支持版本。本机已用 Node.js 24.22.1 完成验证。
+- 阅读日记时按 **H** 显示编辑、收藏和删除操作。
+- 点击人生星球进入穿梭与环绕，点击记忆星点直接阅读。
+- **Esc** 返回上一级；**F11** 切换原生全屏；**Alt+F4** 正常关闭。
+- 拖动自由观察，滚轮缩放。
+- H 控制界面还提供时间轴、人生阶段、搜索、图文备份恢复和安全设置入口。
 
-在 PowerShell 中运行：
-cd "E:\codex记忆\xinyu"
+隔离预览使用独立资料目录，因此不会自动显示正式版的旧日记。需要迁移时，请先在旧版导出完整图文备份，再在预览空间主动恢复；不要直接覆盖正式资料目录。
 
-npm.cmd run dev
+## 本地运行（Windows）
 
-http://127.0.0.1:5173/?utm_source=chatgpt.com
+需要 Node.js 22.12 及以上且满足依赖要求的版本与 npm。建议将仓库克隆到 E 盘。首次安装依赖及 Electron 需要访问 npm/GitHub。
 
-```powershell
-cd 'E:\codex记忆\xinyu'
-npm install
-npm run dev
-```
-
-打开 http://127.0.0.1:5173/ 。保持终端运行，Ctrl+C 停止。
-
-也可以双击本目录的“启动心屿.cmd”。依赖缺失时会先安装依赖，启动后按终端显示的网址访问。
-
-首次安装依赖需要联网；安装后运行和写日记不需要互联网。网页不使用第三方图片、字体、统计或外部请求。依赖和 npm 缓存均放在 E 盘；不需要全局安装任何 npm 包。
-
-## 功能
-
-- 深蓝紫宇宙、程序生成的星球表面、柔和光晕和星环；缓慢自转，鼠标拖动观察。
-- 新建、查看、编辑、确认删除日记；标题、日期和多行正文。
-- localStorage 持久化；标题与正文实时搜索、大小写不敏感、友好空状态。
-- JSON 备份导出，包含版本、导出时间及全部日记数据。
-- 保存失败保留编辑内容；本地数据异常时禁止覆盖并提供原始数据导出。
-- 无 WebGL 时显示静态星球提示，日记功能仍可使用；尊重减少动态效果设置。
-- 优先桌面，兼容窄屏。键盘可操作，弹窗支持 Esc，未保存关闭前会确认。
-
-## 数据范围与限制
-
-日记保存在当前浏览器、当前用户配置、当前网站地址对应的 localStorage 中，不在项目文件夹里。请始终使用 `http://127.0.0.1:5173/`。`localhost`、不同端口、其他浏览器和无痕窗口是独立存储空间。固定端口被占用时服务会提示错误，不会自动切换到另一个地址。
-
-清除浏览器网站数据会删除日记；无痕数据可能在窗口关闭后清除。请通过“导出备份”定期保留 JSON。备份下载位置由浏览器决定，如需放在 E 盘，请在浏览器下载设置中选择 E:\codex记忆。导出文件是明文，应用没有加密或身份验证，同一电脑浏览器配置的其他使用者也能访问数据。推荐单个标签页编辑，避免多个页面并行修改。
-
-MVP 按要求只提供导出，没有导入恢复界面、云同步、后端或登录。3D 需要 WebGL；低性能显卡可能降低帧率。Three.js 生产包约 723 KB（gzip 约 185 KB），已采用独立分包和星球延迟加载，构建时的大包提示不是错误。
-
-## 检查与生产构建
+在 PowerShell 中进入仓库：
 
 ```powershell
+New-Item -ItemType Directory -Force .\work\tmp | Out-Null
+$env:TEMP = (Resolve-Path .\work\tmp).Path
+$env:TMP = $env:TEMP
+$env:npm_config_cache = Join-Path (Get-Location) 'work\npm-cache'
+$env:ELECTRON_CACHE = Join-Path (Get-Location) 'work\electron-cache'
+$env:ELECTRON_BUILDER_CACHE = Join-Path (Get-Location) 'work\electron-builder-cache'
+npm ci
 npm test
-npm run build
-npm run preview
 ```
 
-构建产物在 `dist/`，预览地址 http://127.0.0.1:4173/ 。预览端口与开发端口的数据独立。不能通过双击 dist/index.html 运行 Vite 应用，需要本地 HTTP 服务。
+随后运行 **启动心屿.cmd**。它会构建前端并使用仓库内 work/preview-profile 作为隔离预览资料目录，首次需为测试空间设置密码。普通浏览器的 Vite 预览没有本机安全服务，不能替代 Electron 桌面运行。
 
-## 文件结构
+## 构建安装包
 
-- `src/App.jsx`：页面、日记弹窗和交互。
-- `src/PlanetScene.jsx`：星球材质、星环、星空与拖动控制。
-- `src/storage.js`：本地存储验证、搜索和日期处理。
-- `src/styles.css`：视觉设计和响应式样式，使用 Tailwind Vite 集成。
-- `src/storage.test.js`：数据持久化、搜索、坏数据保护及失败路径测试。
-- `work/`：本次浏览器验证脚本、临时工具和截图，不参与构建，不包含真实用户日记。
+```powershell
+npm run dist:win
+```
 
-## 已执行验证
+根据当前构建配置，产物在仓库上一级的 release 目录。安装器不会自动运行，安装结束也不会自动启动应用。安装器沿用原 appId/productName，手动安装可能识别并升级旧安装；保留旧版时请使用隔离预览。
 
-生产构建通过；8项数据逻辑测试通过。Windows Edge 实际浏览器验证覆盖：星球渲染，新建与刷新保留，标题/正文搜索及无结果提示，查看和编辑，JSON下载内容，取消删除及删除后刷新，配额失败保留编辑内容，损坏数据禁止覆盖，390px无水平溢出。未观察到页面、着色器错误或外部网络请求。自动化数据仅存在独立临时浏览器会话。
+## 4.0.0 主要变化
 
-## 开源基础
+- 默认原生全屏，UI 通过 H 主动呼出；星球点击不弹侧栏。
+- 连续螺旋体积气体、内部光照、暗尘与不同距离星场，未用静态银河图替代场景。
+- 六类行星地貌、云层、大气、星环阴影近似，以及速度关联曝光、FOV 和拖尾。
+- 保存穿梭前镜头位置和观察目标，返回时恢复；窗口改变尺寸不重启飞行。
+- 星点直接进入全屏阅读，ID 决定的星点坐标在普通编辑后保持稳定。
+- 保留日记、图片附件、心情、收藏、搜索、时间轴、自定义阶段、图文备份恢复、应用锁及原显示设置。
 
-复用成熟库而非引入大型日记系统：
+## 已执行验证与限制
 
-- React Three Fiber：https://github.com/pmndrs/react-three-fiber
-- Three.js：https://github.com/mrdoob/three.js
-- Vite：https://github.com/vitejs/vite
-- Tailwind CSS：https://github.com/tailwindlabs/tailwindcss
-- Lucide 图标：https://github.com/lucide-icons/lucide
+最终候选执行了 215 项自动化测试、日记和图文备份恢复等实窗回归、6000 条虚构日记/1000 颗星点压力测试，以及 15 分钟、30 次三档往返测试。RTX 5060 Laptop、1920×1080 下，总览和近轨道的区间平均 FPS 约 59.9–60.3；不代表逐帧最差值或所有设备保证。
+
+人物档案、人物关系星图、独立媒体库管理、标签管理、地点、里程碑、可浏览版本历史、富文本编辑器和逐篇私密功能在现有基线中缺失，本轮未补建。应用锁不加密磁盘文件。正式安装/升级/卸载、核显、多显示器/DPI、睡眠恢复及数小时运行尚未验收。
+
+完整公开说明见 [4.0.0 发布说明](docs/RELEASE-4.0.0.md)。

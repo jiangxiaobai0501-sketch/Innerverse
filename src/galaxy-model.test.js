@@ -1,0 +1,12 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import {GALAXY_ARMS,spiralAngle,galaxyRadius,galaxyBudget,galaxyParticles} from './galaxy-model.js'
+import {orbitSpec} from './living-universe.js'
+test('galaxy seed produces stable independent buffers',()=>{const a=galaxyParticles(1000,25),b=galaxyParticles(1000,25);assert.deepEqual(a,b);a.positions[0]=999;assert.notEqual(b.positions[0],999)})
+test('all particle populations are finite with real disc thickness',()=>{for(const kind of ['stars','haze','dust']){const d=galaxyParticles(5000,25,kind);assert.ok([...d.positions,...d.colors,...d.sizes].every(Number.isFinite));assert.ok(Math.max(...d.positions.filter((_,i)=>i%3===1))>.4);assert.ok(Math.min(...d.positions.filter((_,i)=>i%3===1))<-.4);for(let i=0;i<5000;i++)assert.ok(Math.hypot(d.positions[i*3],d.positions[i*3+2])<27)}})
+test('four logarithmic arms distribute equal populations',()=>{const d=galaxyParticles(4000,25,'haze');assert.equal(GALAXY_ARMS,4);for(let a=0;a<4;a++)assert.equal(d.arms.filter(v=>v===a).length,1000);assert.ok(spiralAngle(20)>spiralAngle(2));assert.ok(Math.abs(spiralAngle(10,1)-spiralAngle(10,0)-Math.PI/2)<1e-12)})
+test('particle color and opacity inputs remain bounded and size positive',()=>{for(const kind of ['stars','haze','dust']){const d=galaxyParticles(5000,25,kind);assert.ok(d.colors.every(v=>v>=0&&v<=1));assert.ok(d.sizes.every(v=>v>0&&v<=50))}})
+test('quality budgets cap effects and disable expensive dust and blur on low',()=>{const l=galaxyBudget('low'),s=galaxyBudget('standard'),h=galaxyBudget('high');assert.ok(l.stars<s.stars&&s.stars<h.stars);assert.ok(l.haze<s.haze&&s.haze<h.haze);assert.equal(l.dust,0);assert.equal(l.blur,0);assert.ok(h.stars+h.haze+h.dust<=41000);assert.deepEqual(galaxyBudget('unknown'),s)})
+test('galaxy framing grows for custom stages and covers all orbit radii',()=>{for(const n of [1,6,7,24]){assert.ok(galaxyRadius(n)>3.2+(n-1)*3.2);assert.ok(Number.isFinite(galaxyRadius(n)))}assert.ok(galaxyRadius(7)>galaxyRadius(6))})
+test('empty populations do not invent data or particles',()=>{const d=galaxyParticles(0,25);assert.equal(d.positions.length,0);assert.equal(d.sizes.length,0);assert.equal(d.arms.length,0)})
+test('planet initial anchors share galaxy spiral phases without changing independent orbit speeds',()=>{const speeds=new Set();for(let i=0;i<6;i++){const s=orbitSpec(i);assert.equal(s.phase,spiralAngle(s.radius,i%4));speeds.add(s.speed)}assert.equal(speeds.size,6)})

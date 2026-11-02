@@ -1,6 +1,84 @@
 {
-  "name": "xinyu", "private": true, "version": "1.0.0", "type": "module",
-  "scripts": { "dev": "vite --host 127.0.0.1 --port 5173 --strictPort", "build": "vite build", "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort", "test": "node --test src/storage.test.js" },
-  "dependencies": { "react": "^19.2.0", "react-dom": "^19.2.0", "three": "^0.180.0", "@react-three/fiber": "^9.4.0", "lucide-react": "^0.468.0" },
-  "devDependencies": { "vite": "^7.1.7", "@vitejs/plugin-react": "^5.0.4", "tailwindcss": "^4.1.14", "@tailwindcss/vite": "^4.1.14" }
+  "name": "xinyu",
+  "private": true,
+  "version": "4.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "test": "node --test src/storage.test.js src/memory-stars.test.js electron/store.test.mjs electron/attachments.test.mjs electron/password-lock.test.mjs src/universe.test.js src/life-stages.test.js src/cinema.test.js src/living-universe.test.js src/galaxy-model.test.js src/journey.test.js",
+    "desktop": "npm run build && electron .",
+    "dist:win": "npm run build && electron-builder --win nsis --x64 --publish never"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.4.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "electron": "45.1.0",
+    "electron-builder": "26.18.0",
+    "tailwindcss": "^4.1.14",
+    "vite": "^7.1.7"
+  },
+  "main": "electron/main.mjs",
+  "description": "心屿 Windows 离线私人日记",
+  "author": "Xinyu",
+  "build": {
+    "appId": "com.xinyu.diary",
+    "productName": "心屿",
+    "directories": {
+      "buildResources": "build",
+      "output": "../release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/main.mjs",
+      "electron/preload.cjs",
+      "electron/store.mjs",
+      "electron/attachments.mjs",
+      "electron/diary-service.mjs",
+      "electron/image-decoder.mjs",
+      "src/storage.js",
+      "build/icon.ico",
+      "package.json",
+      "!node_modules/**/*",
+      "electron/password-lock.mjs",
+      "electron/operation.mjs",
+      "electron/stages.mjs",
+      "src/life-stages.js"
+    ],
+    "asar": true,
+    "npmRebuild": false,
+    "win": {
+      "artifactName": "心屿-Setup-${version}.exe",
+      "icon": "build/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "deleteAppDataOnUninstall": false,
+      "oneClick": false,
+      "runAfterFinish": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": "always",
+      "shortcutName": "心屿",
+      "createStartMenuShortcut": true,
+      "installerLanguages": [
+        "zh_CN"
+      ]
+    }
+  }
 }

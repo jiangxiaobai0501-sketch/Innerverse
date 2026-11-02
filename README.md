@@ -2,6 +2,8 @@
 
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/227a3359-e67f-4a6d-95f5-6040ea31abb9" />
 
+<img width="1586" height="887" alt="image" src="https://github.com/user-attachments/assets/ff1df424-93de-4d5e-ace1-d4ef79a47695" />
+
 
 Windows 本地离线日记应用，使用 Electron、React、React Three Fiber 与 Three.js。解锁后进入默认无常驻 UI 的原生全屏人生宇宙，日记和图片保存在本机。
 
